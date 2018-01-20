@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1775.robot;
+package cam;
 
 
 import java.io.IOException;
@@ -8,7 +8,6 @@ import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
 import com.pi4j.io.i2c.I2CFactory.UnsupportedBusNumberException;
-import com.pi4j.platform.PlatformAlreadyAssignedException;
 import com.pi4j.util.Console;
 
 /**
@@ -24,7 +23,7 @@ import com.pi4j.util.Console;
  */
 public class PixyCam {
 
-    private int getWord(I2CDevice device) throws IOException {
+    static int getWord(I2CDevice device) throws IOException {
         int c = device.read();
         int w = device.read();
         w = w << 8;
@@ -35,13 +34,13 @@ public class PixyCam {
     public static final byte PIXY_START_WORD = (byte)0xaa55;
     public static final byte PIXY_START_WORD_CC = (byte)0xaa56;
     public static final byte PIXY_START_WORDX = (byte)0x55aa;
-    public static final byte PIXY_ADDR = (byte)0xdeadbeaf;
+    public static final byte PIXY_ADDR = (byte)0x54;
     
-    private String g_blockType = "";
-    private String NORMAL_BLOCK = "normal";
-    private String CC_BLOCK = "cc";
+    private static String g_blockType = "";
+    private static String NORMAL_BLOCK = "normal";
+    private static String CC_BLOCK = "cc";
     
-    private int getStart(I2CDevice device) throws IOException {
+    static int getStart(I2CDevice device) throws IOException {
 
         int w, lastw;
 
@@ -68,17 +67,17 @@ public class PixyCam {
         }
     }
 
-    public void main(String[] args) throws InterruptedException, PlatformAlreadyAssignedException, IOException, UnsupportedBusNumberException {
+    public static void main(String[] args) throws InterruptedException, IOException, UnsupportedBusNumberException {
 
         // create Pi4J console wrapper/helper
         // (This is a utility class to abstract some of the boilerplate code)
         final Console console = new Console();
 
         // print program title/header
-        console.title("Pi4J PixyCam demo");
+        // console.title("Pi4J PixyCam demo");
 
         // allow for user to exit program using CTRL-C
-        console.promptForExit();
+        // console.promptForExit();
 
         // get the I2C bus to communicate on
         I2CBus i2c = I2CFactory.getInstance(I2CBus.BUS_0);
